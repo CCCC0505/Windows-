@@ -1,3 +1,7 @@
+注意需要按照md文档进行操作，同时模型也没有提供，需要去Vosk进行下载（同时在文件夹中创建一个models文件夹进行存储模型），若是出现的app中识别不到声音那就是 vosk Python 包没安装 导致的，使用：.\.venv\Scripts\python -m pip install vosk 进行安装
+如果翻译没有开启，就是stanza库没有进行下载.....详情看problem.md
+
+
 # Windows 电脑端实时翻译（V1）
 
 本项目是一个 Windows 桌面端实时翻译工具，核心链路为：
