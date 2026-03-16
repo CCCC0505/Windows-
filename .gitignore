@@ -1,0 +1,19 @@
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+build/
+dist/
+data/
+logs/
+exports/
+
+# Large local model archives
+models/*.zip
+
+# Local IDE and OS artifacts
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini

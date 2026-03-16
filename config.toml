@@ -1,0 +1,52 @@
+[audio]
+sample_rate = 16000
+channels = 1
+frame_ms = 20
+chunk_queue_size = 200
+vad_energy_threshold = 280
+vad_silence_ms = 500
+max_segment_ms = 2500
+
+[subtitle]
+target_language = "zh"
+font_size = 18
+auto_scroll = true
+always_on_top = true
+overlay_opacity = 0.82
+
+[provider]
+mode = "offline_local"
+tencent_secret_id = ""
+tencent_secret_key = ""
+tencent_region = "ap-guangzhou"
+tencent_project_id = 0
+tencent_asr_engine = "16k_en"
+
+[offline_asr]
+model_size = "small"
+segment_seconds = 2.5
+device = "cpu"
+language = "auto"
+source_model = "en"
+model_path = ""
+translate_backend = "offline"
+output_dir = "exports"
+
+[offline_translate]
+backend = "argos"
+enabled = true
+model_path = ""
+source_lang = "en"
+target_lang = "zh"
+max_chars_per_chunk = 300
+timeout_ms = 6000
+
+
+[logging]
+level = "INFO"
+json = true
+log_file = "logs/app.log"
+
+[hotkeys]
+toggle_overlay = "Ctrl+Shift+O"
+start_stop = "Ctrl+Shift+S"

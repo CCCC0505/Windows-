@@ -1,0 +1,61 @@
+[audio]
+sample_rate = 16000
+channels = 1
+frame_ms = 20
+chunk_queue_size = 200
+vad_energy_threshold = 280
+vad_silence_ms = 500
+max_segment_ms = 2500
+
+[subtitle]
+target_language = "zh"
+font_size = 18
+auto_scroll = true
+always_on_top = true
+overlay_opacity = 0.82
+
+[provider]
+mode = "offline_local" # offline_local | mock | tencent | cloud
+asr_base_url = "https://example-asr.local"
+asr_model = "asr-realtime-v1"
+translate_base_url = "https://example-mt.local"
+translate_model = "translate-v1"
+api_key_env = "TRANSLATOR_API_KEY"
+api_key = ""
+tencent_secret_id_env = "TENCENT_SECRET_ID"
+tencent_secret_key_env = "TENCENT_SECRET_KEY"
+tencent_secret_id = ""
+tencent_secret_key = ""
+tencent_region = "ap-guangzhou"
+tencent_project_id = 0
+tencent_asr_engine = "16k_en"
+timeout_seconds = 12
+max_retries = 2
+
+[offline_asr]
+model_size = "small"
+segment_seconds = 2.5
+device = "cpu"
+language = "auto"
+source_model = "en"
+model_path = "" # leave empty to auto-pick best local model (e.g. vosk-model-en-us-0.22 / vosk-model-cn-0.22)
+translate_backend = "offline" # offline | tencent | auto | placeholder
+output_dir = "exports"
+
+[offline_translate]
+backend = "argos" # argos
+enabled = true
+model_path = ""
+source_lang = "en"
+target_lang = "zh"
+max_chars_per_chunk = 300
+timeout_ms = 6000
+
+[logging]
+level = "INFO"
+json = true
+log_file = "logs/app.log"
+
+[hotkeys]
+toggle_overlay = "Ctrl+Shift+O"
+start_stop = "Ctrl+Shift+S"

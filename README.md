@@ -1,9 +1,10 @@
-注意：此项目不可直拆直用，在model文件夹中有model压缩文件，需要完成解压之后才可以运行
+# Windows 电脑端实时翻译（V1）
 
-Windows 电脑端实时翻译（V1）
 本项目是一个 Windows 桌面端实时翻译工具，核心链路为：
 系统音频采集 -> 本地 VAD 分段 -> 本地 ASR 转写 -> 本地/在线翻译 -> 实时字幕展示 -> 历史与导出。
-1. 主要能力
+
+## 1. 主要能力
+
 - Windows 系统音频采集（WASAPI loopback）
 - 音频归一化（16kHz / mono / PCM16）
 - VAD 分段（静音切分 + 最长片段保护）
@@ -13,11 +14,15 @@ Windows 电脑端实时翻译（V1）
 - 离线会话记录（Markdown + TXT）
 - 离线 ASR（Vosk）与离线翻译（Argos）
 - 异常重试与熔断机制（云端模式）
-2. 运行环境
+
+## 2. 运行环境
+
 - Windows 10/11
 - Python 3.8+
 - 建议内存 8GB 以上（大模型 + 离线翻译更稳）
-3. 快速开始
+
+## 3. 快速开始
+
 1. 创建并激活虚拟环境
 - `python -m venv .venv`
 
@@ -30,7 +35,7 @@ Windows 电脑端实时翻译（V1）
 4. 启动应用
 - `.\\.venv\\Scripts\\python -m app.main`
 
-4. Vosk 模型（已升级为高级模型优先）
+## 4. Vosk 模型（已升级为高级模型优先）
 
 你当前 `models` 目录建议保持如下结构：
 
@@ -52,28 +57,28 @@ Windows 电脑端实时翻译（V1）
 
 - `[offline_asr].model_path = ""`
 
-5. 翻译模式说明
+## 5. 翻译模式说明
 
-`offline_local`（默认）
+### `offline_local`（默认）
 
 - ASR：本地 Vosk
 - 翻译：优先 Argos 离线翻译
 - 若翻译组件不可用，会自动退化为转写直出（passthrough），保证“语音转文字”不中断
 
-`mock`
+### `mock`
 
 - 用于链路验证，输出模拟翻译文本
 
-`tencent`
+### `tencent`
 
 - 腾讯云 ASR + 腾讯云机器翻译
 - 需要配置密钥
 
-`cloud`
+### `cloud`
 
 - 预留通用 HTTP 适配模式
 
-6. 离线翻译（Argos）部署
+## 6. 离线翻译（Argos）部署
 
 如果你要启用稳定离线翻译，建议按下面执行：
 
@@ -89,27 +94,27 @@ Windows 电脑端实时翻译（V1）
 - 项目已内置 stanza 的本地化处理与镜像配置，优先避免运行时联网失败。
 - 若网络条件差，首次下载模型可能慢，建议先完成模型下载再启动应用。
 
-7. 关键配置项（`config.toml`）
+## 7. 关键配置项（`config.toml`）
 
-`[provider]`
+### `[provider]`
 
 - `mode`: `offline_local | mock | tencent | cloud`
 - `tencent_secret_id / tencent_secret_key`: 腾讯云密钥（tencent 模式需要）
 
-`[offline_asr]`
+### `[offline_asr]`
 
 - `source_model`: `en | zh`
 - `model_path`: 留空时自动选择高级模型；也可手动指定目录
 - `translate_backend`: `offline | tencent | auto | placeholder`
 - `output_dir`: 离线会话输出目录
 
-`[offline_translate]`
+### `[offline_translate]`
 
 - `enabled`: 是否启用离线翻译
 - `source_lang / target_lang`: 默认翻译方向
 - `timeout_ms`: 离线翻译超时
 
- 8. 日常使用流程
+## 8. 日常使用流程
 
 1. 启动应用后点击 `Start/Stop` 开始会话
 2. 选择识别模型（English / 中文）
@@ -117,7 +122,7 @@ Windows 电脑端实时翻译（V1）
 4. 观察实时字幕与悬浮字幕
 5. 按需导出 TXT/SRT
 
-9. 输出文件说明
+## 9. 输出文件说明
 
 - 历史数据库：`data/history.db`
 - 离线会话记录：
@@ -127,20 +132,22 @@ Windows 电脑端实时翻译（V1）
 - `exports/history.txt`
 - `exports/history.srt`
 
- 10. 一键启动与自启动
+## 10. 一键启动与自启动
 
-一键启动
+### 一键启动
 
 - 运行：`launch_app.bat`
 
-创建桌面快捷方式
+### 创建桌面快捷方式
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\\create_desktop_shortcut.ps1`
 
-开机自启动快捷方式
+### 开机自启动快捷方式
+
 - 启用：`powershell -NoProfile -ExecutionPolicy Bypass -File .\\create_startup_shortcut.ps1`
 - 关闭：`powershell -NoProfile -ExecutionPolicy Bypass -File .\\create_startup_shortcut.ps1 -Disable`
-11. 打包发布
+
+## 11. 打包发布
 
 1. 测试
 - `.\\.venv\\Scripts\\python -m pytest -q`
@@ -154,27 +161,27 @@ Windows 电脑端实时翻译（V1）
 
 打包产物默认在 `dist/`。
 
-12. 常见问题
+## 12. 常见问题
 
-Q1: 明明有声音，但没有转写
+### Q1: 明明有声音，但没有转写
 
 - 检查是否启用了系统回采设备（如 Stereo Mix / 立体声混音）
 - 检查是否正在播放可采集的系统音频
 
-Q2: 离线翻译报错，但我只想要转写
+### Q2: 离线翻译报错，但我只想要转写
 
 - 当前已支持自动退化到 passthrough 转写，不会中断主流程
 
-Q3: 切换英中识别后效果不对
+### Q3: 切换英中识别后效果不对
 
 - 确认 `source_model` 与音频语言一致
 - 保持 `model_path = ""`，让系统自动切到对应高级模型
 
-Q4: 首次离线翻译较慢
+### Q4: 首次离线翻译较慢
 
 - Argos / stanza 需要首次加载模型，之后速度会明显提升
 
-13. 项目结构（核心）
+## 13. 项目结构（核心）
 
 - `app/main.py`: 程序入口
 - `app/server/`: 后端会话与 WS 处理
@@ -185,3 +192,7 @@ Q4: 首次离线翻译较慢
 
 ---
 
+如果你后续要继续收尾，我建议下一步做两件事：
+
+1. 增加“当前实际加载的 Vosk 模型路径”在 UI 状态栏显示，避免排查时猜模型。
+2. 增加一个 `tools/check_models.py`，启动前自动检查 `en/zh` 模型是否齐全并给出明确提示。
